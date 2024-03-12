@@ -1,0 +1,39 @@
+{
+	"id": "7b52bfe3-db04-4cbf-8c00-149ea42fd828",
+	"values": [
+		{
+			"key": "Lab10URL",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "URLTrello",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "urlASM3",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "key",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2024-03-12T10:42:23.105Z",
+	"_postman_exported_using": "Postman/10.23.12"
+}

@@ -1,0 +1,5067 @@
+{
+	"info": {
+		"_postman_id": "a9707312-a10d-4f74-a690-e126b618555a",
+		"name": "ASM3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28341645"
+	},
+	"item": [
+		{
+			"name": "Đăng ký ứng viên",
+			"item": [
+				{
+					"name": "Đăng ký thành công",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thành công Status code 201 Created\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"if(pm.response.code === 201) {\r",
+									"    const response = pm.response.json();\r",
+									"\r",
+									"    //Kiểm tra dữ liệu trả về\r",
+									"    pm.test(\"Dữ liệu đăng ký ứng viên trả vể thành công\", () => {\r",
+									"        pm.expect(response).to.not.be.null;\r",
+									"        pm.expect(response).to.not.be.empty;\r",
+									"        //So sánh thông tin phản hồi\r",
+									"\r",
+									"        //thông tin 'id'\r",
+									"        pm.expect(response).to.have.property(\"id\").that.is.a(\"number\");\r",
+									"        if(response.id) {\r",
+									"            pm.expect(response.id).to.not.be.null;\r",
+									"            pm.environment.set(\"idUser\",response.id);\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'name'\r",
+									"        pm.expect(response).to.have.property(\"name\").that.is.a(\"string\");\r",
+									"        if(response.name) {\r",
+									"            pm.expect(response.name).to.not.be.null;\r",
+									"            pm.expect(response.name).to.not.be.empty;\r",
+									"            pm.expect(response.name).to.be.eql(pm.environment.get(\"CandidateName(Success)\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'email'\r",
+									"        pm.expect(response).to.have.property(\"email\").that.is.a(\"string\");\r",
+									"        if(response.email) {\r",
+									"            pm.expect(response.email).to.not.be.null;\r",
+									"            pm.expect(response.email).to.not.be.empty;\r",
+									"            pm.expect(response.email).to.be.eql(pm.environment.get(\"CandidateEmail(Success)\"));\r",
+									"            \r",
+									"            //Kiểm tra email đúng định dạng\r",
+									"            pm.expect(response.email).to.include(\"@gmail.com\");\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'account'\r",
+									"        pm.expect(response).to.have.property(\"account\").that.is.a(\"string\");\r",
+									"        if(response.account) {\r",
+									"            pm.expect(response.account).to.not.be.null;\r",
+									"            pm.expect(response.account).to.not.be.empty;\r",
+									"            pm.expect(response.account).to.be.eql(pm.environment.get(\"CandidateAccount(Success)\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'password'\r",
+									"        pm.expect(response).to.have.property(\"password\").that.is.a(\"string\");\r",
+									"        if(response.password) {\r",
+									"            pm.expect(response.password).to.not.be.null;\r",
+									"            pm.expect(response.password).to.not.be.empty;\r",
+									"            pm.expect(response.password).to.be.eql(pm.environment.get(\"CandidatePassword(Success)\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'phone'\r",
+									"        pm.expect(response).to.have.property(\"phone\").that.is.a(\"string\");\r",
+									"        if(response.phone) {\r",
+									"            pm.expect(response.phone).to.not.be.null;\r",
+									"            pm.expect(response.phone).to.not.be.empty;\r",
+									"            pm.expect(response.phone).to.be.eql(pm.environment.get(\"CandidatePhone(Success)\"));\r",
+									"\r",
+									"            //Kiểm tra 'phone' đúng định dạng (chỉ chứa ký tự số)\r",
+									"            pm.expect(/^\\d+$/.test(response.phone)).to.be.true;\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'sex'\r",
+									"        pm.expect(response).to.have.property(\"sex\").that.is.a(\"string\");\r",
+									"        if(response.sex) {\r",
+									"            pm.expect(response.sex).to.not.be.null;\r",
+									"            pm.expect(response.sex).to.not.be.empty;\r",
+									"            pm.expect(response.sex).to.be.eql(pm.environment.get(\"CandidateSex(Success)\"));\r",
+									"\r",
+									"            //Kiểm tra 'sex' chỉ là Nam hoặc Nữ\r",
+									"            pm.expect(response.sex).to.be.oneOf([\"Nam\",\"Nữ\"]);\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'birthday'\r",
+									"        pm.expect(response).to.have.property(\"birthday\").that.is.a(\"string\");\r",
+									"        if(response.birthday) {\r",
+									"            pm.expect(response.birthday).to.not.be.null;\r",
+									"            pm.expect(response.birthday).to.not.be.empty;\r",
+									"            pm.expect(response.birthday).to.be.eql(pm.environment.get(\"CandidateBirthday(Success)\"));\r",
+									"\r",
+									"            //Kiểm tra 'birthday' là định dạng dd/mm/yyyy\r",
+									"            pm.expect(/^\\d{2}\\/\\d{2}\\/\\d{4}$/.test(response.birthday)).to.be.true;\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'experience'\r",
+									"        pm.expect(response).to.have.property(\"experience\").that.is.a(\"string\");\r",
+									"        if(response.experience) {\r",
+									"            pm.expect(response.experience).to.not.be.null;\r",
+									"            pm.expect(response.experience).to.not.be.empty;\r",
+									"            pm.expect(response.experience).to.be.eql(pm.environment.get(\"CandidateExperience(Success)\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'skill'\r",
+									"        pm.expect(response).to.have.property(\"skill\").that.is.a(\"string\");\r",
+									"        if(response.skill) {\r",
+									"            pm.expect(response.skill).to.not.be.null;\r",
+									"            pm.expect(response.skill).to.not.be.empty;\r",
+									"            pm.expect(response.skill).to.be.eql(pm.environment.get(\"CandidateSkill(Success)\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'description'\r",
+									"        pm.expect(response).to.have.property(\"description\").that.is.a(\"string\");\r",
+									"        if(response.description) {\r",
+									"            pm.expect(response.description).to.not.be.null;\r",
+									"            pm.expect(response.description).to.not.be.empty;\r",
+									"            pm.expect(response.description).to.be.eql(pm.environment.get(\"CandidateDescription(Success)\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'foreiginLanguage'\r",
+									"        pm.expect(response).to.have.property(\"foreiginLanguage\").that.is.a(\"string\");\r",
+									"        if(response.foreiginLanguage) {\r",
+									"            pm.expect(response.foreiginLanguage).to.not.be.null;\r",
+									"            pm.expect(response.foreiginLanguage).to.not.be.empty;\r",
+									"            pm.expect(response.foreiginLanguage).to.be.eql(pm.environment.get(\"CandidateForeignLanguage(Success)\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'education'\r",
+									"        pm.expect(response).to.have.property(\"education\").that.is.a(\"string\");\r",
+									"        if(response.education) {\r",
+									"            pm.expect(response.education).to.not.be.null;\r",
+									"            pm.expect(response.education).to.not.be.empty;\r",
+									"            pm.expect(response.education).to.be.eql(pm.environment.get(\"CandidateEducation(Success)\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'avatar'\r",
+									"        pm.expect(response).to.have.property(\"avatar\");\r",
+									"        if(response.avatar) {\r",
+									"            pm.expect(response.avatar).to.not.be.null;\r",
+									"            pm.environment.set(\"CandidateAvatar(Success)\", response.avatar);\r",
+									"        };\r",
+									"    });\r",
+									"\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let random = Math.random().toString(36).substring(7);\r",
+									"\r",
+									"\r",
+									"pm .globals.set(\"urlASM3\", \"http://34.143.239.189:5000/api\");\r",
+									"\r",
+									"pm.environment.set(\"CandidateName(Success)\", random);\r",
+									"\r",
+									"pm.environment.set(\"CandidateEmail(Success)\",random + '@gmail.com');\r",
+									"\r",
+									"pm.environment.set(\"CandidateAccount(Success)\",random);\r",
+									"\r",
+									"pm.environment.set(\"CandidatePassword(Success)\",\"Abcd1234@\");\r",
+									"\r",
+									"pm.environment.set(\"CandidatePhone(Success)\",\"0123456789\");\r",
+									"\r",
+									"pm.environment.set(\"CandidateSex(Success)\",\"Nam\");\r",
+									"\r",
+									"pm.environment.set(\"CandidateBirthday(Success)\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"CandidateExperience(Success)\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"CandidateSkill(Success)\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"CandidateDescription(Success)\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"CandidateForeignLanguage(Success)\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"CandidateEducation(Success)\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{CandidateName(Success)}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{CandidateEmail(Success)}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{CandidateAccount(Success)}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{CandidatePassword(Success)}}",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{CandidatePhone(Success)}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "{{CandidateSex(Success)}}",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{CandidateBirthday(Success)}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{CandidateExperience(Success)}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{CandidateSkill(Success)}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{CandidateDescription(Success)}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{CandidateForeignLanguage(Success)}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{CandidateEducation(Success)}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với tài khoản đã tồn tại",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do tài khoản đã tồn tại. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\",\"trung02\");\r",
+									"\r",
+									"pm.environment.set(\"email\",\"trung02@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"password\",\"Abcd12345\");\r",
+									"\r",
+									"pm.environment.set(\"phone\",\"0123456701\");\r",
+									"\r",
+									"pm.environment.set(\"sex\",\"Nam\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{CandidateAccount(Success)}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{phone}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "{{sex}}",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với email đã tồn tại",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do email đã tồn tại. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\",\"trung03\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung003\");\r",
+									"\r",
+									"pm.environment.set(\"password\",\"Abcd12346\");\r",
+									"\r",
+									"pm.environment.set(\"phone\",\"0123456702\");\r",
+									"\r",
+									"pm.environment.set(\"sex\",\"Nam\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{CandidateEmail(Success)}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{account}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{phone}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "{{sex}}",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với số điện thoại đã tồn tại",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do số điện thoại đã tồn tại. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\",\"trung04\");\r",
+									"\r",
+									"pm.environment.set(\"email\",\"trung04@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung004\");\r",
+									"\r",
+									"pm.environment.set(\"password\",\"Abcd12347\");\r",
+									"\r",
+									"pm.environment.set(\"sex\",\"Nam\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{account}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{CandidatePhone(Success)}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "{{sex}}",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với email không hợp lệ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do email không hợp lệ. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\",\"trung05\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung005\");\r",
+									"\r",
+									"pm.environment.set(\"password\",\"Abcd12347\");\r",
+									"\r",
+									"pm.environment.set(\"phone\",\"0123456705\");\r",
+									"\r",
+									"pm.environment.set(\"sex\",\"Nam\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "examplegmail.com",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{account}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{phone}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "{{sex}}",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với số điện thoại sai không hợp lệ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do số điện thoai không hợp lệ. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\",\"trung06\");\r",
+									"\r",
+									"pm.environment.set(\"email\",\"trung06@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung006\");\r",
+									"\r",
+									"pm.environment.set(\"password\",\"Abcd12348\");\r",
+									"\r",
+									"pm.environment.set(\"sex\",\"Nam\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{account}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "01234567FD",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "{{sex}}",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với ngày sinh không hợp lệ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do ngày sinh không hợp lệ. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\",\"trung07\");\r",
+									"\r",
+									"pm.environment.set(\"email\",\"trung07@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung007\");\r",
+									"\r",
+									"pm.environment.set(\"password\",\"Abcd12348\");\r",
+									"\r",
+									"pm.environment.set(\"phone\",\"0123456707\");\r",
+									"\r",
+									"pm.environment.set(\"sex\",\"Nam\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{account}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{phone}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "11.09.2001",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với giới tính không trong phạm vi",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do giới tính không nằm trong phạm vi. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\",\"trung08\");\r",
+									"\r",
+									"pm.environment.set(\"email\",\"trung08@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung008\");\r",
+									"\r",
+									"pm.environment.set(\"password\",\"Abcd12348\");\r",
+									"\r",
+									"pm.environment.set(\"phone\",\"0123456708\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{account}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{phone}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "Unvalid",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với mật khẩu nhỏ hơn 8 ký tự",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do mật khẩu nhỏ hơn 8 ký tự. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\",\"trung09\");\r",
+									"\r",
+									"pm.environment.set(\"email\",\"trung09@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung009\");\r",
+									"\r",
+									"pm.environment.set(\"phone\",\"0123456709\");\r",
+									"\r",
+									"pm.environment.set(\"sex\",\"Nam\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{account}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Ab123@",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{phone}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "{{sex}}",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với mật khẩu thiếu ký tự chữ hoa",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do mật khẩu thiếu ký tự chữ hoa. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\",\"trung10\");\r",
+									"\r",
+									"pm.environment.set(\"email\",\"trung10@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung010\");\r",
+									"\r",
+									"pm.environment.set(\"phone\",\"0123456710\");\r",
+									"\r",
+									"pm.environment.set(\"sex\",\"Nam\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{account}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "abcd1234@",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{phone}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "{{sex}}",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với mật khẩu thiếu ký tự chữ thường",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do mật khẩu thiếu ký tự chữ thường. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\",\"trung11\");\r",
+									"\r",
+									"pm.environment.set(\"email\",\"trung11@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung011\");\r",
+									"\r",
+									"pm.environment.set(\"phone\",\"0123456711\");\r",
+									"\r",
+									"pm.environment.set(\"sex\",\"Nam\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{account}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "ABCD1234@",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{phone}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "{{sex}}",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với mật khẩu thiếu ký tự số",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\",\"trung12\");\r",
+									"\r",
+									"pm.environment.set(\"email\",\"trung12@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung012\");\r",
+									"\r",
+									"pm.environment.set(\"phone\",\"0123456712\");\r",
+									"\r",
+									"pm.environment.set(\"sex\",\"Nam\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do mật khẩu thiếu ký tự số. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{account}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Password",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{phone}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "{{sex}}",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với thông tin 'Họ tên' bị thiếu",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do thiếu thông tin 'Họ tên'. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"pm.environment.set(\"email\",\"trung13@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung013\");\r",
+									"\r",
+									"pm.environment.set(\"password\",\"Abcd12349@\");\r",
+									"\r",
+									"pm.environment.set(\"phone\",\"0123456713\");\r",
+									"\r",
+									"pm.environment.set(\"sex\",\"Nam\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{account}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{phone}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "{{sex}}",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với thông tin 'Email' bị thiếu",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do thiếu thông tin 'Email'. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\",\"trung14\");\r",
+									"\r",
+									"pm.environment.set(\"email\",\"trung14@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung014\");\r",
+									"\r",
+									"pm.environment.set(\"password\",\"Abcd1235\");\r",
+									"\r",
+									"pm.environment.set(\"phone\",\"0123456714\");\r",
+									"\r",
+									"pm.environment.set(\"sex\",\"Nam\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{account}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{phone}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "{{sex}}",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với thông tin 'Số điện thoại' bị thiếu",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do thiếu thông tin 'Số điện thoại'. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\",\"trung15\");\r",
+									"\r",
+									"pm.environment.set(\"email\",\"trung15@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung015\");\r",
+									"\r",
+									"pm.environment.set(\"password\",\"Abcd1236@\");\r",
+									"\r",
+									"pm.environment.set(\"sex\",\"Nam\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{account}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "{{sex}}",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với thông tin 'Ngày sinh' bị thiếu",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do thiếu thông tin 'Ngày sinh'. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\",\"trung16\");\r",
+									"\r",
+									"pm.environment.set(\"email\",\"trung16@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung016\");\r",
+									"\r",
+									"pm.environment.set(\"password\",\"Abcd1237@\");\r",
+									"\r",
+									"pm.environment.set(\"phone\",\"0123456716\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{account}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{phone}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "{{sex}}",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với thông tin 'Giới tính' bị thiếu",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do thiếu thông tin 'Giới tính'. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\",\"trung17\");\r",
+									"\r",
+									"pm.environment.set(\"email\",\"trung17@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung017\");\r",
+									"\r",
+									"pm.environment.set(\"password\",\"Abcd1238@\");\r",
+									"\r",
+									"pm.environment.set(\"phone\",\"0123456717\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{account}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{phone}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với thông tin 'Tài khoản' bị thiếu",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do thiếu thông tin 'Tài khoản'. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.environment.set(\"email\",\"trung18@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung018\");\r",
+									"\r",
+									"pm.environment.set(\"password\",\"Abcd1238@\");\r",
+									"\r",
+									"pm.environment.set(\"phone\",\"0123456717\");\r",
+									"\r",
+									"pm.environment.set(\"sex\",\"Nam\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{phone}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "{{sex}}",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng ký với thông tin 'Mật khẩu' bị thiếu",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng ký ứng viên thất bại do thiếu thông tin 'Mật khẩu'. Status code 500 Internal Server Error\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\",\"trung19\");\r",
+									"\r",
+									"pm.environment.set(\"email\",\"trung19@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"account\",\"trung019\");\r",
+									"\r",
+									"pm.environment.set(\"phone\",\"0123456718\");\r",
+									"\r",
+									"pm.environment.set(\"sex\",\"Nam\");\r",
+									"\r",
+									"pm.environment.set(\"birthday\",\"11/09/2001\");\r",
+									"\r",
+									"pm.environment.set(\"experience\",\"0 năm\");\r",
+									"\r",
+									"pm.environment.set(\"skill\",\"iphone\");\r",
+									"\r",
+									"pm.environment.set(\"description\",\"không\");\r",
+									"\r",
+									"pm.environment.set(\"foreignLanguage\",\"English\");\r",
+									"\r",
+									"pm.environment.set(\"education\",\"Đại học\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "account",
+									"value": "{{account}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "{{phone}}",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "{{sex}}",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "{{birthday}}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{{experience}}",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "{{skill}}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{description}}",
+									"type": "text"
+								},
+								{
+									"key": "foreiginLanguage",
+									"value": "{{foreignLanguage}}",
+									"type": "text"
+								},
+								{
+									"key": "education",
+									"value": "{{education}}",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Admin/AppData/Roaming/Postman/download.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/register",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Đăng nhập ứng viên",
+			"item": [
+				{
+					"name": "Đăng nhập thành công",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập ứng viên thành công. Status code 200 OK \", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if(pm.response.code === 200) {\r",
+									"    const response = pm.response.json();\r",
+									"\r",
+									"    //Kiểm tra dữ liệu trả về\r",
+									"    pm.test(\"Dữ liệu đăng nhập ứng viên trả về thành công\", () => {\r",
+									"        pm.expect(response).to.not.be.null;\r",
+									"        pm.expect(response).to.not.be.empty;\r",
+									"        //Kiểm tra message trả về\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if(response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Đăng nhập thành công\");\r",
+									"        }\r",
+									"\r",
+									"        //Kiểm tra token trả về\r",
+									"        pm.expect(response).to.have.property(\"token\").that.is.a(\"string\");\r",
+									"        if(response.token) {\r",
+									"            pm.expect(response.token).to.not.be.null;\r",
+									"            pm.expect(response.token).to.not.be.empty;\r",
+									"            pm.environment.set(\"TokenUser\", response.token);\r",
+									"        };\r",
+									"\r",
+									"        //Kiểm tra thông tin user trả về\r",
+									"        pm.expect(response).to.have.property(\"user\").that.is.an(\"object\");\r",
+									"        if(response.user) {\r",
+									"\r",
+									"            //Kiểm tra thông tin 'id'\r",
+									"            pm.expect(response.user).to.have.property(\"id\").that.is.a('number');\r",
+									"            if(response.user.id) {\r",
+									"                pm.expect(response.user.id).to.not.be.null;\r",
+									"                pm.expect(response.user.id).to.be.eql(pm.environment.get(\"idUser\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'name'\r",
+									"            pm.expect(response.user).to.have.property(\"name\").that.is.a('string');\r",
+									"            if(response.user.name) {\r",
+									"                pm.expect(response.user.name).to.not.be.null;\r",
+									"                pm.expect(response.user.name).to.not.be.empty;\r",
+									"                pm.expect(response.user.name).to.be.eql(pm.environment.get(\"CandidateName(Success)\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'email'\r",
+									"            pm.expect(response.user).to.have.property(\"email\").that.is.a('string');\r",
+									"            if(response.user.email) {\r",
+									"                pm.expect(response.user.email).to.not.be.null;\r",
+									"                pm.expect(response.user.email).to.not.be.empty;\r",
+									"                pm.expect(response.user.email).to.be.eql(pm.environment.get(\"CandidateEmail(Success)\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'account'\r",
+									"            pm.expect(response.user).to.have.property(\"account\").that.is.a('string');\r",
+									"            if(response.user.account) {\r",
+									"                pm.expect(response.user.account).to.not.be.null;\r",
+									"                pm.expect(response.user.account).to.not.be.empty;\r",
+									"                pm.expect(response.user.account).to.be.eql(pm.environment.get(\"CandidateAccount(Success)\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'password'\r",
+									"            pm.expect(response.user).to.have.property(\"password\").that.is.a('string');\r",
+									"            if(response.user.password) {\r",
+									"                pm.expect(response.user.password).to.not.be.null;\r",
+									"                pm.expect(response.user.password).to.not.be.empty;\r",
+									"                pm.expect(response.user.password).to.be.eql(pm.environment.get(\"CandidatePassword(Success)\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'phone'\r",
+									"            pm.expect(response.user).to.have.property(\"phone\").that.is.a('string');\r",
+									"            if(response.user.phone) {\r",
+									"                pm.expect(response.user.phone).to.not.be.null;\r",
+									"                pm.expect(response.user.phone).to.not.be.empty;\r",
+									"                pm.expect(/^\\d+$/.test(response.user.phone)).to.be.true;\r",
+									"                pm.expect(response.user.phone).to.be.eql(pm.environment.get(\"CandidatePhone(Success)\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'sex'\r",
+									"            pm.expect(response.user).to.have.property(\"sex\").that.is.a('string');\r",
+									"            if(response.user.sex) {\r",
+									"                pm.expect(response.user.sex).to.not.be.null;\r",
+									"                pm.expect(response.user.sex).to.not.be.empty;\r",
+									"                pm.expect(response.user.sex).to.be.oneOf([\"Nam\",\"Nữ\"]);\r",
+									"                pm.expect(response.user.sex).to.be.eql(pm.environment.get(\"CandidateSex(Success)\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'birthday'\r",
+									"            pm.expect(response.user).to.have.property(\"birthday\").that.is.a('string');\r",
+									"            if(response.user.birthday) {\r",
+									"                pm.expect(response.user.birthday).to.not.be.null;\r",
+									"                pm.expect(response.user.birthday).to.not.be.empty;\r",
+									"                pm.expect(/^\\d{2}\\/\\d{2}\\/\\d{4}/.test(response.user.birthday)).to.be.true;\r",
+									"                pm.expect(response.user.birthday).to.be.eql(pm.environment.get(\"CandidateBirthday(Success)\"));\r",
+									"            };\r",
+									"            \r",
+									"            //Kiểm tra thông tin 'experience'\r",
+									"            pm.expect(response.user).to.have.property(\"experience\").that.is.a('string');\r",
+									"            if(response.user.experience) {\r",
+									"                pm.expect(response.user.experience).to.not.be.null;\r",
+									"                pm.expect(response.user.experience).to.not.be.empty;\r",
+									"                pm.expect(response.user.experience).to.be.eql(pm.environment.get(\"CandidateExperience(Success)\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'skill'\r",
+									"            pm.expect(response.user).to.have.property(\"skill\").that.is.a('string');\r",
+									"            if(response.user.skill) {\r",
+									"                pm.expect(response.user.skill).to.not.be.null;\r",
+									"                pm.expect(response.user.skill).to.not.be.empty;\r",
+									"                pm.expect(response.user.skill).to.be.eql(pm.environment.get(\"CandidateSkill(Success)\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'description'\r",
+									"            pm.expect(response.user).to.have.property(\"description\").that.is.a('string');\r",
+									"            if(response.user.description) {\r",
+									"                pm.expect(response.user.description).to.not.be.null;\r",
+									"                pm.expect(response.user.description).to.not.be.empty;\r",
+									"                pm.expect(response.user.description).to.be.eql(pm.environment.get(\"CandidateDescription(Success)\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'foreignLanguage'\r",
+									"            pm.expect(response.user).to.have.property(\"foreiginLanguage\").that.is.a('string');\r",
+									"            if(response.user.foreignLanguage) {\r",
+									"                pm.expect(response.user.foreignLanguage).to.not.be.null;\r",
+									"                pm.expect(response.user.foreignLanguage).to.not.be.empty;\r",
+									"                pm.expect(response.user.foreignLanguage).to.be.eql(pm.environment.get(\"CandidateForeignLanguage(Success)\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'education'\r",
+									"            pm.expect(response.user).to.have.property(\"education\").that.is.a('string');\r",
+									"            if(response.user.education) {\r",
+									"                pm.expect(response.user.education).to.not.be.null;\r",
+									"                pm.expect(response.user.education).to.not.be.empty;\r",
+									"                pm.expect(response.user.education).to.be.eql(pm.environment.get(\"CandidateEducation(Success)\"));\r",
+									"            };\r",
+									"        };\r",
+									"    \r",
+									"        \r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"{{CandidateAccount(Success)}}\",\r\n    \"password\" : \"{{CandidatePassword(Success)}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/login",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng nhập với tài khoản không tồn tại",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập ứng viên thất bại do tài khoản đăng nhập không tồn tại. Status code 404 Not Found \", () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 404) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Thông báo lỗi 'Tài khoản người dùng không tồn tại' hiển thị thành công\", () => {\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if (response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Tài khoản người dùng không tồn tại\");\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"unvaliđaccount\",\r\n    \"password\" : \"{{CandidatePassword(Success)}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/login",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng nhập với tài khoản bị trống",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập ứng viên thất bại do tài khoản đăng nhập bị trống. Status code 400 Bad request \", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 400) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Thông báo lỗi 'Tài khoản người dùng không tồn tại' hiển thị thành công\", () => {\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if (response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Tài khoản người dùng không tồn tại\");\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"\",\r\n    \"password\" : \"{{CandidatePassword(Success)}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/login",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng nhập với mật khẩu bị bỏ trống",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập ứng viên thất bại do mật khẩu bị trống. Status code 400 Bad request \", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 400) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Thông báo lỗi 'Tài khoản người dùng không tồn tại' hiển thị thành công\", () => {\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if (response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Tài khoản người dùng không tồn tại\");\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"{{CandidateAccount(Success)}}\",\r\n    \"password\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/login",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng nhập với mật khẩu bị sai",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập ứng viên thất bại do mật khẩu bị sai. Status code 400 Bad request \", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 400) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Thông báo lỗi 'Tài khoản người dùng không tồn tại' hiển thị thành công\", () => {\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if (response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Tài khoản người dùng không tồn tại\");\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"{{CandidateAccount(Success)}}\",\r\n    \"password\" : \"Wrongpassword12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/login",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng nhập với mật khẩu nhỏ hơn 8 ký tự",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập ứng viên thất bại do mật khẩu nhỏ hơn 8 ký tự. Status code 400 Bad request \", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 400) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Thông báo lỗi 'Mật khẩu không hợp lệ, mật khẩu phải tối thiểu 8 kí tự, bao gồm chữ hoa, thường, số' hiển thị thành công\", () => {\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if (response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Tài khoản người dùng không tồn tại\");\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"{{CandidateAccount(Success)}}\",\r\n    \"password\" : \"Ab12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/login",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng nhập với mật khẩu thiếu chữ hoa",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập ứng viên thất bại do mật khẩu thiếu chữ hoa. Status code 400 Bad request \", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 400) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Thông báo lỗi 'Mật khẩu không hợp lệ, mật khẩu phải tối thiểu 8 kí tự, bao gồm chữ hoa, thường, số' hiển thị thành công\", () => {\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if (response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Mật khẩu không hợp lệ, mật khẩu phải tối thiểu 8 kí tự, bao gồm chữ hoa, thường, số\");\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"{{CandidateAccount(Success)}}\",\r\n    \"password\" : \"abcd1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/login",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng nhập với mật khẩu thiếu chữ thường",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập ứng viên thất bại do mật khẩu thiếu chữ thường. Status code 400 Bad request \", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 400) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Thông báo lỗi 'Mật khẩu không hợp lệ, mật khẩu phải tối thiểu 8 kí tự, bao gồm chữ hoa, thường, số\", () => {\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if (response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Mật khẩu không hợp lệ, mật khẩu phải tối thiểu 8 kí tự, bao gồm chữ hoa, thường, số\");\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"{{CandidateAccount(Success)}}\",\r\n    \"password\" : \"ABCD1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/login",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng nhập với mật khẩu thiếu ký tự số",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập ứng viên thất bại do mật khẩu thiếu ký tự số. Status code 400 Bad request \", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 400) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Thông báo lỗi 'Mật khẩu không hợp lệ, mật khẩu phải tối thiểu 8 kí tự, bao gồm chữ hoa, thường, số' hiển thị thành công\", () => {\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if (response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Mật khẩu không hợp lệ, mật khẩu phải tối thiểu 8 kí tự, bao gồm chữ hoa, thường, số\");\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"{{CandidateAccount(Success)}}\",\r\n    \"password\" : \"ABCDefgh\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/users/login",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Đăng nhập nhà tuyển dụng",
+			"item": [
+				{
+					"name": "Đăng nhập thành công",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"EmployerAccount\", \"ngoisao123\");\r",
+									"\r",
+									"pm.environment.set(\"EmployerPassword\", \"Ngoisao123@\");\r",
+									"\r",
+									"pm.environment.set(\"EmployerName\", \"ngoisao123\");\r",
+									"\r",
+									"pm.environment.set(\"EmployerEmail\", \"ngoisao123@gmail.com\");\r",
+									"\r",
+									"pm.environment.set(\"EmployerAddress\", \"Ho Chi Minh City\");\r",
+									"\r",
+									"pm.environment.set(\"EmployerWebsite\", \"ngoisao.com\");\r",
+									"\r",
+									"pm.environment.set(\"EmployerPhone\", \"0344000963\");\r",
+									"\r",
+									"pm.environment.set(\"EmployerNation\",\"Viet Nam\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập nhà tuyển dụng thành công. Status code 200 OK \", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if(pm.response.code === 200) {\r",
+									"    const response = pm.response.json();\r",
+									"\r",
+									"    //Kiểm tra dữ liệu trả về\r",
+									"    pm.test(\"Dữ liệu đăng nhập nhà tuyển dụng trả về thành công\", () => {\r",
+									"        pm.expect(response).to.not.be.null;\r",
+									"        pm.expect(response).to.not.be.empty;\r",
+									"        //Kiểm tra message trả về\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if(response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Đăng nhập thành công\");\r",
+									"        }\r",
+									"\r",
+									"        //Kiểm tra token trả về\r",
+									"        pm.expect(response).to.have.property(\"token\").that.is.a(\"string\");\r",
+									"        if(response.token) {\r",
+									"            pm.expect(response.token).to.not.be.null;\r",
+									"            pm.expect(response.token).to.not.be.empty;\r",
+									"            pm.environment.set(\"TokenEmployer\", response.token);\r",
+									"        };\r",
+									"\r",
+									"        //Kiểm tra thông tin user trả về\r",
+									"        pm.expect(response).to.have.property(\"user\").that.is.an(\"object\");\r",
+									"        if(response.user) {\r",
+									"\r",
+									"            //Kiểm tra thông tin 'id'\r",
+									"            pm.expect(response.user).to.have.property(\"id\").that.is.a('number');\r",
+									"            if(response.user.id) {\r",
+									"                pm.expect(response.user.id).to.not.be.null;\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'name'\r",
+									"            pm.expect(response.user).to.have.property(\"name\").that.is.a('string');\r",
+									"            if(response.user.name) {\r",
+									"                pm.expect(response.user.name).to.not.be.null;\r",
+									"                pm.expect(response.user.name).to.not.be.empty;\r",
+									"                pm.expect(response.user.name).to.be.eql(pm.environment.get(\"EmployerName\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'email'\r",
+									"            pm.expect(response.user).to.have.property(\"email\").that.is.a('string');\r",
+									"            if(response.user.email) {\r",
+									"                pm.expect(response.user.email).to.not.be.null;\r",
+									"                pm.expect(response.user.email).to.not.be.empty;\r",
+									"                pm.expect(response.user.email).to.be.eql(pm.environment.get(\"EmployerEmail\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'account'\r",
+									"            pm.expect(response.user).to.have.property(\"account\").that.is.a('string');\r",
+									"            if(response.user.account) {\r",
+									"                pm.expect(response.user.account).to.not.be.null;\r",
+									"                pm.expect(response.user.account).to.not.be.empty;\r",
+									"                pm.expect(response.user.account).to.be.eql(pm.environment.get(\"EmployerAccount\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'password'\r",
+									"            pm.expect(response.user).to.have.property(\"password\").that.is.a('string');\r",
+									"            if(response.user.password) {\r",
+									"                pm.expect(response.user.password).to.not.be.null;\r",
+									"                pm.expect(response.user.password).to.not.be.empty;\r",
+									"                pm.expect(response.user.password).to.be.eql(pm.environment.get(\"EmployerPassword\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'numberPhone'\r",
+									"            pm.expect(response.user).to.have.property(\"numberPhone\").that.is.a('string');\r",
+									"            if(response.user.numberPhone) {\r",
+									"                pm.expect(response.user.numberPhone).to.not.be.null;\r",
+									"                pm.expect(response.user.numberPhone).to.not.be.empty;\r",
+									"                pm.expect(/^\\d+$/.test(response.user.numberPhone)).to.be.true;\r",
+									"                pm.expect(response.user.numberPhone).to.be.eql(pm.environment.get(\"EmployerPhone\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'webstie'\r",
+									"            pm.expect(response.user).to.have.property(\"webstie\").that.is.a('string');\r",
+									"            if(response.user.webstie) {\r",
+									"                pm.expect(response.user.webstie).to.not.be.null;\r",
+									"                pm.expect(response.user.webstie).to.not.be.empty;\r",
+									"                pm.expect(response.user.webstie).to.be.eql(pm.environment.get(\"EmployerWebsite\"));\r",
+									"            };\r",
+									"\r",
+									"            //Kiểm tra thông tin 'address'\r",
+									"            pm.expect(response.user).to.have.property(\"address\").that.is.a('string');\r",
+									"            if(response.user.address) {\r",
+									"                pm.expect(response.user.address).to.not.be.null;\r",
+									"                pm.expect(response.user.address).to.not.be.empty;\r",
+									"                pm.expect(response.user.address).to.be.eql(pm.environment.get(\"EmployerAddress\"));\r",
+									"            };\r",
+									"            \r",
+									"            //Kiểm tra thông tin 'nation'\r",
+									"            pm.expect(response.user).to.have.property(\"nation\").that.is.a('string');\r",
+									"            if(response.user.nation) {\r",
+									"                pm.expect(response.user.nation).to.not.be.null;\r",
+									"                pm.expect(response.user.nation).to.not.be.empty;\r",
+									"                pm.expect(response.user.nation).to.be.eql(pm.environment.get(\"EmployerNation\"));\r",
+									"            };\r",
+									"\r",
+									"        };\r",
+									"    \r",
+									"        \r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"{{EmployerAccount}}\",\r\n    \"password\" : \"{{EmployerPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/company/login-company",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"company",
+								"login-company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng nhập với tài khoản không tồn tại",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập nhà tuyển dụng thất bại do tài khoản đăng nhập không tồn tại. Status code 404 Not Found \", () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 404) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Thông báo lỗi 'Tài khoản người dùng không tồn tại' hiển thị thành công\", () => {\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if (response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Tài khoản người dùng không tồn tại\");\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"unvalid\",\r\n    \"password\" : \"{{EmployerPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/company/login-company",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"company",
+								"login-company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng nhập với tài khoản bị trống",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập nhà tuyển dụng thất bại do tài khoản đăng nhập bị trống. Status code 400 Bad request \", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 400) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Thông báo lỗi 'Tài khoản người dùng không tồn tại' hiển thị thành công\", () => {\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if (response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Tài khoản người dùng không tồn tại\");\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"\",\r\n    \"password\" : \"{{EmployerPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/company/login-company",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"company",
+								"login-company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng nhập với mật khẩu bị bỏ trống",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập nhà tuyển dụng thất bại do mật khẩu bị trống. Status code 400 Bad request \", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 400) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Thông báo lỗi 'Tài khoản người dùng không tồn tại' hiển thị thành công\", () => {\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if (response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Tài khoản người dùng không tồn tại\");\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"{{EmployerAccount}}\",\r\n    \"password\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/company/login-company",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"company",
+								"login-company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng nhập với mật khẩu bị sai",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập nhà tuyển dụng thất bại do mật khẩu bị sai. Status code 400 Bad request \", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 400) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Thông báo lỗi 'Tài khoản người dùng không tồn tại' hiển thị thành công\", () => {\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if (response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Tài khoản người dùng không tồn tại\");\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"{{EmployerAccount}}\",\r\n    \"password\" : \"Wrongpassword123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/company/login-company",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"company",
+								"login-company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng nhập với mật khẩu nhỏ hơn 8 ký tự",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập nhà tuyển dụng thất bại do mật khẩu nhỏ hơn 8 ký tự. Status code 400 Bad request \", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 400) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Thông báo lỗi 'Mật khẩu không hợp lệ, mật khẩu phải tối thiểu 8 kí tự, bao gồm chữ hoa, thường, số' hiển thị thành công\", () => {\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if (response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Tài khoản người dùng không tồn tại\");\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"{{EmployerAccount}}\",\r\n    \"password\" : \"Ab12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/company/login-company",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"company",
+								"login-company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng nhập với mật khẩu thiếu chữ hoa",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập nhà tuyển dụng thất bại do mật khẩu thiếu chữ hoa. Status code 400 Bad request \", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 400) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Thông báo lỗi 'Mật khẩu không hợp lệ, mật khẩu phải tối thiểu 8 kí tự, bao gồm chữ hoa, thường, số' hiển thị thành công\", () => {\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if (response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Mật khẩu không hợp lệ, mật khẩu phải tối thiểu 8 kí tự, bao gồm chữ hoa, thường, số\");\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"{{EmployerAccount}}\",\r\n    \"password\" : \"abcd1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/company/login-company",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"company",
+								"login-company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng nhập với mật khẩu thiếu chữ thường",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập nhà tuyển dụng thất bại do mật khẩu thiếu chữ thường. Status code 400 Bad request \", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 400) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Thông báo lỗi 'Mật khẩu không hợp lệ, mật khẩu phải tối thiểu 8 kí tự, bao gồm chữ hoa, thường, số' hiển thị thành công\", () => {\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if (response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Mật khẩu không hợp lệ, mật khẩu phải tối thiểu 8 kí tự, bao gồm chữ hoa, thường, số\");\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"{{EmployerAccount}}\",\r\n    \"password\" : \"ABCD1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/company/login-company",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"company",
+								"login-company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Đăng nhập với mật khẩu thiếu ký tự số",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST đăng nhập nhà tuyển dụng thất bại do mật khẩu thiếu ký tự số. Status code 400 Bad request \", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 400) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Thông báo lỗi 'Mật khẩu không hợp lệ, mật khẩu phải tối thiểu 8 kí tự, bao gồm chữ hoa, thường, số' hiển thị thành công\", () => {\r",
+									"        pm.expect(response).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"        if (response.message) {\r",
+									"            pm.expect(response.message).to.not.be.null;\r",
+									"            pm.expect(response.message).to.not.be.empty;\r",
+									"            pm.expect(response.message).to.be.eql(\"Mật khẩu không hợp lệ, mật khẩu phải tối thiểu 8 kí tự, bao gồm chữ hoa, thường, số\");\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account\" : \"{{EmployerAccount}}\",\r\n    \"password\" : \"ABCDefgh\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/company/login-company",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"company",
+								"login-company"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Lấy danh sách công việc",
+			"item": [
+				{
+					"name": "Lấy danh sách thành công",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call GET lấy danh sách công việc thành công. Status code 200 OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"if(pm.response.code === 200) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.test(\"Trả về danh sách công việc thành công\", () => {\r",
+									"        //Kiểm tra thông tin trả về danh sách công việc\r",
+									"    pm.expect(response).to.not.be.null;\r",
+									"    pm.expect(response).to.not.be.empty;\r",
+									"    pm.expect(response).to.be.an(\"array\");\r",
+									"\r",
+									"    response.forEach(function (list) {\r",
+									"        //Kiểm tra tất cả các phẩn tử trong danh sách đều có các trường thông tin\r",
+									"        pm.expect(list).to.have.property(\"id\").that.is.a(\"number\");\r",
+									"        if(list.id) {\r",
+									"            pm.expect(list.id).to.not.be.null;\r",
+									"        };\r",
+									"        \r",
+									"        //Các trường bắt buộc\r",
+									"        pm.expect(list).to.have.property(\"nameWork\").that.is.a(\"string\");\r",
+									"        if(list.nameWork) {\r",
+									"            pm.expect(list.nameWork).to.not.be.null;\r",
+									"            pm.expect(list.nameWork).to.not.be.empty;\r",
+									"        };\r",
+									"\r",
+									"        pm.expect(list).to.have.property(\"description\").that.is.a(\"string\");\r",
+									"        if(list.description) {\r",
+									"            pm.expect(list.description).to.not.be.null;\r",
+									"            pm.expect(list.description).to.not.be.empty;\r",
+									"        };\r",
+									"\r",
+									"        pm.expect(list).to.have.property(\"request\").that.is.a(\"string\");\r",
+									"        if(list.request) {\r",
+									"            pm.expect(list.request).to.not.be.null;\r",
+									"            pm.expect(list.request).to.not.be.empty;\r",
+									"        };\r",
+									"\r",
+									"        pm.expect(list).to.have.property(\"salary\").that.is.a(\"number\");\r",
+									"        if(list.salary) {\r",
+									"            pm.expect(list.request).to.not.be.null;\r",
+									"        };\r",
+									"\r",
+									"        pm.expect(list).to.have.property(\"addr\").that.is.a(\"string\");\r",
+									"        if(list.addr) {\r",
+									"            pm.expect(list.addr).to.not.be.null;\r",
+									"            pm.expect(list.addr).to.not.be.empty;\r",
+									"        };\r",
+									"\r",
+									"        //Các trường không bắt buộc\r",
+									"        pm.expect(list).to.have.property(\"experience\");\r",
+									"        pm.expect(list).to.have.property(\"levelWork\");\r",
+									"        pm.expect(list).to.have.property(\"education\");\r",
+									"        \r",
+									"        \r",
+									"    });\r",
+									"\r",
+									"    pm.environment.set(\"jobId\", response[0].id);    \r",
+									"    })\r",
+									"    \r",
+									"\r",
+									"};\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlASM3}}/work/list-work",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"work",
+								"list-work"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Lấy thông tin User",
+			"item": [
+				{
+					"name": "Lấy thông tin thành công",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call GET lấy thông tin user thành công. Status code 200 OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if(pm.response.code === 200) {\r",
+									"    \r",
+									"    const response = pm.response.json();\r",
+									"\r",
+									"    pm.test(\"Trả về thông tin user thành công\", () => {\r",
+									"        pm.expect(response).to.not.be.null;\r",
+									"        pm.expect(response).to.not.be.empty;\r",
+									"        \r",
+									"        //Kiểm tra các trường thông tin của user (ứng viên)\r",
+									"        pm.expect(response).to.have.property(\"id\").that.is.a(\"number\");\r",
+									"        if(response.id) {\r",
+									"            pm.expect(response.id).to.not.be.null;\r",
+									"            pm.expect(response.id).to.be.eql(pm.environment.get(\"idUser\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'name'\r",
+									"        pm.expect(response).to.have.property(\"name\").that.is.a(\"string\");\r",
+									"        if(response.name) {\r",
+									"            pm.expect(response.name).to.not.be.null;\r",
+									"            pm.expect(response.name).to.not.be.empty;\r",
+									"            pm.expect(response.name).to.be.eql(pm.environment.get(\"CandidateName(Success)\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'email'\r",
+									"        pm.expect(response).to.have.property(\"email\").that.is.a(\"string\");\r",
+									"        if(response.email) {\r",
+									"            pm.expect(response.email).to.not.be.null;\r",
+									"            pm.expect(response.email).to.not.be.empty;\r",
+									"            pm.expect(response.email).to.be.eql(pm.environment.get(\"CandidateEmail(Success)\"));\r",
+									"            \r",
+									"            //Kiểm tra email đúng định dạng\r",
+									"            pm.expect(response.email).to.include(\"@gmail.com\");\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'account'\r",
+									"        pm.expect(response).to.have.property(\"account\").that.is.a(\"string\");\r",
+									"        if(response.account) {\r",
+									"            pm.expect(response.account).to.not.be.null;\r",
+									"            pm.expect(response.account).to.not.be.empty;\r",
+									"            pm.expect(response.account).to.be.eql(pm.environment.get(\"CandidateAccount(Success)\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'password'\r",
+									"        pm.expect(response).to.have.property(\"password\").that.is.a(\"string\");\r",
+									"        if(response.password) {\r",
+									"            pm.expect(response.password).to.not.be.null;\r",
+									"            pm.expect(response.password).to.not.be.empty;\r",
+									"            pm.expect(response.password).to.be.eql(pm.environment.get(\"CandidatePassword(Success)\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'phone'\r",
+									"        pm.expect(response).to.have.property(\"phone\").that.is.a(\"string\");\r",
+									"        if(response.phone) {\r",
+									"            pm.expect(response.phone).to.not.be.null;\r",
+									"            pm.expect(response.phone).to.not.be.empty;\r",
+									"            pm.expect(response.phone).to.be.eql(pm.environment.get(\"CandidatePhone(Success)\"));\r",
+									"\r",
+									"            //Kiểm tra 'phone' đúng định dạng (chỉ chứa ký tự số)\r",
+									"            pm.expect(/^\\d+$/.test(response.phone)).to.be.true;\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'sex'\r",
+									"        pm.expect(response).to.have.property(\"sex\").that.is.a(\"string\");\r",
+									"        if(response.sex) {\r",
+									"            pm.expect(response.sex).to.not.be.null;\r",
+									"            pm.expect(response.sex).to.not.be.empty;\r",
+									"            pm.expect(response.sex).to.be.eql(pm.environment.get(\"CandidateSex(Success)\"));\r",
+									"\r",
+									"            //Kiểm tra 'sex' chỉ là Nam hoặc Nữ\r",
+									"            pm.expect(response.sex).to.be.oneOf([\"Nam\",\"Nữ\"]);\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'birthday'\r",
+									"        pm.expect(response).to.have.property(\"birthday\").that.is.a(\"string\");\r",
+									"        if(response.birthday) {\r",
+									"            pm.expect(response.birthday).to.not.be.null;\r",
+									"            pm.expect(response.birthday).to.not.be.empty;\r",
+									"            pm.expect(response.birthday).to.be.eql(pm.environment.get(\"CandidateBirthday(Success)\"));\r",
+									"\r",
+									"            //Kiểm tra 'birthday' là định dạng dd/mm/yyyy\r",
+									"            pm.expect(/^\\d{2}\\/\\d{2}\\/\\d{4}$/.test(response.birthday)).to.be.true;\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'experience'\r",
+									"        pm.expect(response).to.have.property(\"experience\").that.is.a(\"string\");\r",
+									"        if(response.experience) {\r",
+									"            pm.expect(response.experience).to.not.be.null;\r",
+									"            pm.expect(response.experience).to.not.be.empty;\r",
+									"            pm.expect(response.experience).to.be.eql(pm.environment.get(\"CandidateExperience(Success)\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'skill'\r",
+									"        pm.expect(response).to.have.property(\"skill\").that.is.a(\"string\");\r",
+									"        if(response.skill) {\r",
+									"            pm.expect(response.skill).to.not.be.null;\r",
+									"            pm.expect(response.skill).to.not.be.empty;\r",
+									"            pm.expect(response.skill).to.be.eql(pm.environment.get(\"CandidateSkill(Success)\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'description'\r",
+									"        pm.expect(response).to.have.property(\"description\").that.is.a(\"string\");\r",
+									"        if(response.description) {\r",
+									"            pm.expect(response.description).to.not.be.null;\r",
+									"            pm.expect(response.description).to.not.be.empty;\r",
+									"            pm.expect(response.description).to.be.eql(pm.environment.get(\"CandidateDescription(Success)\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'foreiginLanguage'\r",
+									"        pm.expect(response).to.have.property(\"foreiginLanguage\").that.is.a(\"string\");\r",
+									"        if(response.foreiginLanguage) {\r",
+									"            pm.expect(response.foreiginLanguage).to.not.be.null;\r",
+									"            pm.expect(response.foreiginLanguage).to.not.be.empty;\r",
+									"            pm.expect(response.foreiginLanguage).to.be.eql(pm.environment.get(\"CandidateForeignLanguage(Success)\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'education'\r",
+									"        pm.expect(response).to.have.property(\"education\").that.is.a(\"string\");\r",
+									"        if(response.education) {\r",
+									"            pm.expect(response.education).to.not.be.null;\r",
+									"            pm.expect(response.education).to.not.be.empty;\r",
+									"            pm.expect(response.education).to.be.eql(pm.environment.get(\"CandidateEducation(Success)\"));\r",
+									"        };\r",
+									"\r",
+									"        //thông tin 'avatar'\r",
+									"        pm.expect(response).to.have.property(\"avatar\");\r",
+									"        \r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenUser}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlASM3}}/users/get-information-user",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"get-information-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lấy thông tin không mã Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call GET lấy thông tin user thất bại do thiếu mã JWT Token. Status code 403 Forbidden\", () => {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlASM3}}/users/get-information-user",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"get-information-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lấy thông tin có mã Token không đúng",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call GET lấy thông tin user thất bại do mã JWT Token không đúng. Status code 403 Forbidden\", () => {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "unvalid001",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlASM3}}/users/get-information-user",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"get-information-user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Lấy danh sách ứng viên",
+			"item": [
+				{
+					"name": "Lấy danh sách thành công",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call GET lấy danh sách ứng viên thành công. Status code 200 OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if(pm.response.code === 200) {\r",
+									"    const response = pm.response.json();\r",
+									"\r",
+									"    pm.test(\"Trả về danh sách ứng viên thành công\", () => {\r",
+									"        pm.expect(response).to.not.be.null;\r",
+									"        pm.expect(response).to.not.be.empty;\r",
+									"        pm.expect(response).to.be.an(\"array\");\r",
+									"        \r",
+									"        //Kiểm tra thông tin danh sách ứng viên phản hồi\r",
+									"    response.forEach(function (list) {\r",
+									"        pm.expect(list).to.have.property(\"id\").that.is.a(\"number\");\r",
+									"        if(list.id) {\r",
+									"            pm.expect(list.id).to.not.be.null;\r",
+									"        };\r",
+									"        pm.expect(list).to.have.property(\"nameWork\");\r",
+									"        pm.expect(list).to.have.property(\"experience\");\r",
+									"        pm.expect(list).to.have.property(\"education\");\r",
+									"        pm.expect(list).to.have.property(\"userwork\").that.is.an(\"object\");\r",
+									"\r",
+									"        //Kiểm tra các trường bắt buộc của ứng viên\r",
+									"        if(list.userwork) {\r",
+									"            pm.expect(list.userwork).to.have.property(\"id\").that.is.a(\"number\");\r",
+									"            if(list.userwork.id) {\r",
+									"                pm.expect(list.userwork.id).to.not.be.null;\r",
+									"            };\r",
+									"\r",
+									"            pm.expect(list.userwork).to.have.property(\"name\").that.is.a(\"string\");\r",
+									"            if(list.userwork.name) {\r",
+									"                pm.expect(list.userwork.name).to.not.be.null;\r",
+									"                pm.expect(list.userwork.name).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            pm.expect(list.userwork).to.have.property(\"email\").that.is.a(\"string\");\r",
+									"            if(list.userwork.name) {\r",
+									"                pm.expect(list.userwork.name).to.not.be.null;\r",
+									"                pm.expect(list.userwork.name).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            pm.expect(list.userwork).to.have.property(\"account\").that.is.a(\"string\");\r",
+									"            if(list.userwork.account) {\r",
+									"                pm.expect(list.userwork.account).to.not.be.null;\r",
+									"                pm.expect(list.userwork.account).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            pm.expect(list.userwork).to.have.property(\"password\").that.is.a(\"string\");\r",
+									"            if(list.userwork.password) {\r",
+									"                pm.expect(list.userwork.password).to.not.be.null;\r",
+									"                pm.expect(list.userwork.password).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            pm.expect(list.userwork).to.have.property(\"phone\").that.is.a(\"string\");\r",
+									"            if(list.userwork.phone) {\r",
+									"                pm.expect(list.userwork.phone).to.not.be.null;\r",
+									"                pm.expect(list.userwork.phone).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            pm.expect(list.userwork).to.have.property(\"sex\").that.is.a(\"string\");\r",
+									"            if(list.userwork.sex) {\r",
+									"                pm.expect(list.userwork.sex).to.not.be.null;\r",
+									"                pm.expect(list.userwork.sex).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            pm.expect(list.userwork).to.have.property(\"birthday\").that.is.a(\"string\");\r",
+									"            if(list.userwork.birthday) {\r",
+									"                pm.expect(list.userwork.birthday).to.not.be.null;\r",
+									"                pm.expect(list.userwork.birthday).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            //Các trường không bắt buộc\r",
+									"            pm.expect(list.userwork).to.have.property(\"avatar\");\r",
+									"            pm.expect(list.userwork).to.have.property(\"skill\");\r",
+									"            pm.expect(list.userwork).to.have.property(\"description\");\r",
+									"            pm.expect(list.userwork).to.have.property(\"foreiginLanguage\");\r",
+									"            pm.expect(list.userwork).to.have.property(\"education\");\r",
+									"        };\r",
+									"    });\r",
+									"    \r",
+									"    }); \r",
+									"};"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenEmployer}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlASM3}}/work-user/get-all-admin",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"work-user",
+								"get-all-admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lấy danh sách thiếu mã Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call GET lấy danh sách ứng viên thất bại do thiếu mã JWT Token. Status code 403 Forbidden\", () => {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlASM3}}/work-user/get-all-admin",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"work-user",
+								"get-all-admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lấy danh sách với mã Token không hợp lệ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call GET lấy danh sách ứng viên thất bại do mã JWT Token không đúng. Status code 403 Forbidden\", () => {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "unvalidTokenEmployer1",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlASM3}}/work-user/get-all-admin",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"work-user",
+								"get-all-admin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ứng tuyển",
+			"item": [
+				{
+					"name": "Ứng tuyển thành công",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST ứng tuyển thành công. Status code 200 OK\",() => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if(pm.response.code === 200) {\r",
+									"    const response = pm.response.json();\r",
+									"\r",
+									"    //Kiểm tra thông tin ứng tuyển phản hồi\r",
+									"    pm.test(\"Thông tin ứng tuyển phản hồi thành công\", () => {\r",
+									"        pm.expect(response).to.not.be.null;\r",
+									"        pm.expect(response).to.not.be.empty;\r",
+									"        pm.expect(response).to.have.property(\"data\").that.is.an(\"object\");\r",
+									"        if(response.data) {\r",
+									"            pm.expect(response.data).to.have.property(\"id\").that.is.a(\"number\");\r",
+									"            if(response.data.id) {\r",
+									"                pm.expect(response.data.id).to.not.be.null;\r",
+									"            };\r",
+									"            pm.expect(response.data).to.have.property(\"userId\").that.is.a(\"number\");\r",
+									"            if(response.data.userId) {\r",
+									"                pm.expect(response.data.userId).to.not.be.null;\r",
+									"                pm.expect(response.data.userId).to.be.eql(pm.environment.get(\"idUser\"));\r",
+									"            };\r",
+									"            pm.expect(response.data).to.have.property(\"jobId\").that.is.a(\"number\");\r",
+									"            if(response.data.jobId) {\r",
+									"                pm.expect(response.data.jobId).to.not.be.null;\r",
+									"                pm.expect(response.data.jobId).to.be.eql(pm.environment.get(\"jobId\"));\r",
+									"            };\r",
+									"        }\r",
+									"    })\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenUser}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"jobId\": {{jobId}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/application/create-application",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"application",
+								"create-application"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ứng tuyển không có mã Token ứng viên",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST ứng tuyển thất bại do thiếu mã Token ứng viên. Status code 403 Forbidden\",() => {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"jobId\": {{jobId}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/application/create-application",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"application",
+								"create-application"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ứng tuyển khi mã Token không hợp lệ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST ứng tuyển thất bại do mã Token ứng viên không hợp lệ. Status code 403 Forbidden\",() => {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "UnvalidTokenUser1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"jobId\": {{jobId}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/application/create-application",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"application",
+								"create-application"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ứng tuyển khi ID công việc không hợp lệ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST ứng tuyển thất bại do ID công việc không hợp lệ. Status code 403 Forbidden\",() => {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenUser}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"jobId\": \"wrongJobId\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/application/create-application",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"application",
+								"create-application"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ứng tuyển khi ID công việc bị thiếu",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST ứng tuyển thất bại do ID công việc bị thiếu. Status code 403 Forbidden\",() => {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenUser}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/application/create-application",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"application",
+								"create-application"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ứng tuyển khi ID công việc không tồn tại",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call POST ứng tuyển thất bại do ID công việc không tồn tại. Status code 403 Forbidden\",() => {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenUser}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"jobId\": 1123\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlASM3}}/application/create-application",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"application",
+								"create-application"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Lấy danh sách công ty",
+			"item": [
+				{
+					"name": "Lấy danh sách thành công",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call GET lấy danh sách công ty thành công. Status code 200 OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if(pm.response.code === 200) {\r",
+									"    const response = pm.response.json();\r",
+									"\r",
+									"    pm.test(\"Trả về thông tin danh sách công ty thành công\", () => {\r",
+									"        pm.expect(response).to.not.be.null;\r",
+									"        pm.expect(response).to.not.be.empty;\r",
+									"        pm.expect(response).to.be.an(\"object\");\r",
+									"        \r",
+									"        //Kiểm tra phản hồi các thông tin danh sách\r",
+									"        response.forEach(function (list){\r",
+									"            pm.expect(response).to.have.property(\"id\").that.is.a(\"number\");\r",
+									"            if(response.id) {\r",
+									"                pm.expect(response.id).to.not.be.null;\r",
+									"            };\r",
+									"\r",
+									"            //Các trường bắt buộc\r",
+									"\r",
+									"            pm.expect(response).to.have.property(\"name\").that.is.a(\"string\");\r",
+									"            if(response.name) {\r",
+									"                pm.expect(response.name).to.not.be.null;\r",
+									"                pm.expect(response.name).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            pm.expect(response).to.have.property(\"account\").that.is.a(\"string\");\r",
+									"            if(response.account) {\r",
+									"                pm.expect(response.account).to.not.be.null;\r",
+									"                pm.expect(response.account).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            pm.expect(response).to.have.property(\"password\").that.is.a(\"string\");\r",
+									"            if(response.password) {\r",
+									"                pm.expect(response.password).to.not.be.null;\r",
+									"                pm.expect(response.password).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            pm.expect(response).to.have.property(\"email\").that.is.a(\"string\");\r",
+									"            if(response.email) {\r",
+									"                pm.expect(response.email).to.not.be.null;\r",
+									"                pm.expect(response.email).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            pm.expect(response).to.have.property(\"numberPhone\").that.is.a(\"string\");\r",
+									"            if(response.numberPhone) {\r",
+									"                pm.expect(response.numberPhone).to.not.be.null;\r",
+									"                pm.expect(response.numberPhone).to.not.be.empty;\r",
+									"            };\r",
+									"            \r",
+									"            //Các trường không bắt buộc\r",
+									"            pm.expect(response).to.have.property(\"address\");\r",
+									"            pm.expect(response).to.have.property(\"website\");\r",
+									"            pm.expect(response).to.have.property(\"avatar\");\r",
+									"        });\r",
+									"        \r",
+									"\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlASM3}}/company/getAllCompany",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"company",
+								"getAllCompany"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Lấy danh sách đơn ứng tuyển",
+			"item": [
+				{
+					"name": "Lấy danh sách thành công",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call GET lấy danh sách đơn ứng tuyển thành công. Status code is 200 OK\") {\r",
+									"    pm.response.to.have.status(200);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlASM3}}/application/getall-application",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"application",
+								"getall-application"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Lấy danh sách các user",
+			"item": [
+				{
+					"name": "Lấy danh sách thành công",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Call GET lấy danh sách user thành công. Status code 200 OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"if(pm.response.code === 200) {\r",
+									"    const response = pm.response.json();\r",
+									"\r",
+									"    //Kiểm tra thông tin danh sách user phản hồi\r",
+									"    pm.test(\"Trả về danh sách user thành công\", () => {\r",
+									"        pm.expect(response).to.be.an(\"array\");\r",
+									"        pm.expect(response).to.not.be.null;\r",
+									"        pm.expect(response).to.not.be.empty;\r",
+									"\r",
+									"        //Kiểm tra các trường thông tin của user (ứng viên)\r",
+									"        response.forEach(function (list) {\r",
+									"        \r",
+									"            pm.expect(list).to.have.property(\"id\").that.is.a(\"number\");\r",
+									"            if(list.id) {\r",
+									"                pm.expect(list.id).to.not.be.null;\r",
+									"            };\r",
+									"\r",
+									"            //thông tin 'name'\r",
+									"            pm.expect(list).to.have.property(\"name\").that.is.a(\"string\");\r",
+									"            if(list.name) {\r",
+									"                pm.expect(list.name).to.not.be.null;\r",
+									"                pm.expect(list.name).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            //thông tin 'email'\r",
+									"            pm.expect(list).to.have.property(\"email\").that.is.a(\"string\");\r",
+									"            if(list.email) {\r",
+									"                pm.expect(list.email).to.not.be.null;\r",
+									"                pm.expect(list.email).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            //thông tin 'account'\r",
+									"            pm.expect(list).to.have.property(\"account\").that.is.a(\"string\");\r",
+									"            if(list.account) {\r",
+									"                pm.expect(list.account).to.not.be.null;\r",
+									"                pm.expect(list.account).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            //thông tin 'password'\r",
+									"            pm.expect(list).to.have.property(\"password\").that.is.a(\"string\");\r",
+									"            if(list.password) {\r",
+									"                pm.expect(list.password).to.not.be.null;\r",
+									"                pm.expect(list.password).to.not.be.empty;\r",
+									"             };\r",
+									"\r",
+									"            //thông tin 'phone'\r",
+									"            pm.expect(list).to.have.property(\"phone\").that.is.a(\"string\");\r",
+									"            if(list.phone) {\r",
+									"                pm.expect(list.phone).to.not.be.null;\r",
+									"                pm.expect(list.phone).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            //thông tin 'sex'\r",
+									"            pm.expect(list).to.have.property(\"sex\").that.is.a(\"string\");\r",
+									"            if(list.sex) {\r",
+									"                pm.expect(list.sex).to.not.be.null;\r",
+									"                pm.expect(list.sex).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            //thông tin 'birthday'\r",
+									"            pm.expect(list).to.have.property(\"birthday\").that.is.a(\"string\");\r",
+									"            if(list.birthday) {\r",
+									"                pm.expect(list.birthday).to.not.be.null;\r",
+									"                pm.expect(list.birthday).to.not.be.empty;\r",
+									"            };\r",
+									"\r",
+									"            //thông tin 'experience'\r",
+									"            pm.expect(list).to.have.property(\"experience\");\r",
+									"\r",
+									"            //thông tin 'skill'\r",
+									"            pm.expect(list).to.have.property(\"skill\");\r",
+									"\r",
+									"            //thông tin 'description'\r",
+									"            pm.expect(list).to.have.property(\"description\");\r",
+									"\r",
+									"            //thông tin 'foreiginLanguage'\r",
+									"            pm.expect(list).to.have.property(\"foreiginLanguage\");\r",
+									"\r",
+									"            //thông tin 'education'\r",
+									"            pm.expect(list).to.have.property(\"education\");\r",
+									"\r",
+									"            //thông tin 'avatar'\r",
+									"            pm.expect(list).to.have.property(\"avatar\");\r",
+									"        });\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlASM3}}/users/getAllUsers",
+							"host": [
+								"{{urlASM3}}"
+							],
+							"path": [
+								"users",
+								"getAllUsers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
